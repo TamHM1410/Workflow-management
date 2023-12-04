@@ -1,0 +1,1072 @@
+[
+    {
+        "id": "912907e7e6aebf11",
+        "type": "tab",
+        "label": "MockProject",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a43aeba97c24f9ae",
+        "type": "sqlite",
+        "z": "912907e7e6aebf11",
+        "mydb": "0d8ccf631c35d5ed",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Database",
+        "x": 1040,
+        "y": 140,
+        "wires": [
+            [
+                "76b1d7587fbbf8c0"
+            ]
+        ]
+    },
+    {
+        "id": "431cc37d3cd1c861",
+        "type": "inject",
+        "z": "912907e7e6aebf11",
+        "name": "Create Table",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 690,
+        "y": 140,
+        "wires": [
+            [
+                "7f5904b03a6c8db4",
+                "7e95363226a2851a",
+                "944a051adb5f3d46"
+            ]
+        ]
+    },
+    {
+        "id": "7f5904b03a6c8db4",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "User",
+        "func": "msg.topic = `\n    CREATE TABLE User (\n    \tEmail TEXT PRIMARY KEY,\n    \tPassword TEXT NOT NULL,\n    \tName TEXT NOT NULL,\n    \tRole TINYINT NOT NULL\n    )\n`\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 80,
+        "wires": [
+            [
+                "a43aeba97c24f9ae"
+            ]
+        ]
+    },
+    {
+        "id": "76b1d7587fbbf8c0",
+        "type": "debug",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "d7b542a1150f9d77",
+        "type": "http response",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "statusCode": "404",
+        "headers": {},
+        "x": 1220,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "e490f808b62a6e33",
+        "type": "catch",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "scope": [],
+        "uncaught": false,
+        "x": 1030,
+        "y": 40,
+        "wires": [
+            [
+                "d7b542a1150f9d77"
+            ]
+        ]
+    },
+    {
+        "id": "bce3d2502008568b",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "User",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "b4966f4b1dc8705d"
+            ]
+        ]
+    },
+    {
+        "id": "a237e456f7307c49",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "User",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 240,
+        "wires": [
+            [
+                "0f24d2664851edc5"
+            ]
+        ]
+    },
+    {
+        "id": "0f24d2664851edc5",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Post User",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `INSERT INTO User ('Email','Password','Name','Role') VALUES ($Email,$Password,$Name,$Role)`\nmsg.payload = [raw.Email,raw.Password,raw.Name,raw.Role]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "b4966f4b1dc8705d",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Get User",
+        "func": "msg.topic = `SELECT Email, Name, Role FROM User WHERE Email = $Email`;\n\nif(Object.keys(msg.req.body).length > 0) {\n    msg.payload = [msg.req.body.Email]\n}\nelse if(Object.keys(msg.req.query).length > 0) {\n    msg.payload = [msg.req.query.Email]\n}\nelse{\n    msg.topic = \"SELECT Email, Name, Role FROM User\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "08ca50d8239aac6d",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "User",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 320,
+        "wires": [
+            [
+                "57e9e4d333b03e5d"
+            ]
+        ]
+    },
+    {
+        "id": "57e9e4d333b03e5d",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "PUT User",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `UPDATE User SET Name = $Name WHERE Email = $Email`\nmsg.payload = [raw.Name,raw.Email]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 320,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "593ffb6baf4dd5e2",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "User",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 360,
+        "wires": [
+            [
+                "cb68e3d04178cff1"
+            ]
+        ]
+    },
+    {
+        "id": "cb68e3d04178cff1",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "DELETE User",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `DELETE FROM User WHERE Email = $Email`\nmsg.payload = [raw.Email]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 360,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "caee41a7f427ec69",
+        "type": "inject",
+        "z": "912907e7e6aebf11",
+        "name": "Create User",
+        "props": [
+            {
+                "p": "req.body.Email",
+                "v": "test@gmail.com",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.Password",
+                "v": "admin",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.Name",
+                "v": "test",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.Role",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "0f24d2664851edc5"
+            ]
+        ]
+    },
+    {
+        "id": "56ed6ccd42cb9e12",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "User/Login",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "17c6b4f55a398d3f"
+            ]
+        ]
+    },
+    {
+        "id": "17c6b4f55a398d3f",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Login Progess",
+        "func": "msg.topic = `SELECT Email, ClassId, Name, Role FROM User WHERE Email = $Email AND Password = $Password`;\nmsg.payload = [msg.req.body.Email, msg.req.body.Password]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 160,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "a3e480b478a70249",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "User/ChangePassword",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 860,
+        "y": 700,
+        "wires": [
+            [
+                "85068e1d397bb1ea"
+            ]
+        ]
+    },
+    {
+        "id": "85068e1d397bb1ea",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Update mutil result",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = \"SELECT * FROM User WHERE Email = $Email\"\nmsg.payload = [raw.Email]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1130,
+        "y": 700,
+        "wires": [
+            [
+                "c72be255f16f0b68"
+            ]
+        ]
+    },
+    {
+        "id": "c72be255f16f0b68",
+        "type": "sqlite",
+        "z": "912907e7e6aebf11",
+        "mydb": "0d8ccf631c35d5ed",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Database",
+        "x": 1340,
+        "y": 700,
+        "wires": [
+            [
+                "2ed6e6c3676d90c9"
+            ]
+        ]
+    },
+    {
+        "id": "2ed6e6c3676d90c9",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "CheckPassword",
+        "func": "var raw = msg.req.body;\nmsg.accept = 0;\n\nif(msg.payload[0].Password == raw.Password){\n    msg.topic = `UPDATE User SET Password = $NewPassword WHERE Email = $Email`\n    msg.payload = [raw.NewPassword, raw.Email]\n    msg.accept = 1;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 780,
+        "wires": [
+            [
+                "1fe5327175b68074",
+                "cda98f2063e2bcbc"
+            ]
+        ]
+    },
+    {
+        "id": "5642f6cdbbe8aed9",
+        "type": "sqlite",
+        "z": "912907e7e6aebf11",
+        "mydb": "0d8ccf631c35d5ed",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Database",
+        "x": 1540,
+        "y": 780,
+        "wires": [
+            [
+                "bff4e881f71aed68"
+            ]
+        ]
+    },
+    {
+        "id": "bff4e881f71aed68",
+        "type": "http response",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1740,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "1fe5327175b68074",
+        "type": "switch",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "property": "accept",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1330,
+        "y": 780,
+        "wires": [
+            [
+                "5642f6cdbbe8aed9"
+            ],
+            [
+                "9460d5bfb00a1ff5"
+            ]
+        ]
+    },
+    {
+        "id": "9d57d49fd6247336",
+        "type": "http response",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "statusCode": "404",
+        "headers": {},
+        "x": 1740,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "cda98f2063e2bcbc",
+        "type": "debug",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1190,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "9460d5bfb00a1ff5",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Get Answer",
+        "func": "msg.payload = null;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1550,
+        "y": 880,
+        "wires": [
+            [
+                "9d57d49fd6247336"
+            ]
+        ]
+    },
+    {
+        "id": "7e95363226a2851a",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Project",
+        "func": "msg.topic = `\n    CREATE TABLE Project (\n        Id INTEGER PRIMARY KEY AUTOINCREMENT,\n    \tName TEXT NOT NULL,\n    \tPayment REAL NOT NULL,\n    \tTimeStart DATETIME,\n    \tTimeEnd DATETIME,\n    \tNote TEXT,\n    \tPriority INTEGER NOT NULL\n    )\n`\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 140,
+        "wires": [
+            [
+                "a43aeba97c24f9ae"
+            ]
+        ]
+    },
+    {
+        "id": "962091187db658e4",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "Project",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "61c1f10aa9f3f195"
+            ]
+        ]
+    },
+    {
+        "id": "a5726fdb4c0a0d7f",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "Project",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 480,
+        "wires": [
+            [
+                "de36dd59b06601bf"
+            ]
+        ]
+    },
+    {
+        "id": "de36dd59b06601bf",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Post Project",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `INSERT INTO Project ('Name','Payment','TimeStart','TimeEnd','Note','Priority') VALUES ($Name,$Payment,$TimeStart,$TimeEnd,$Note, $Priority)`\nmsg.payload = [raw.Name,raw.Payment,raw.TimeStart,raw.TimeEnd,raw.Note,raw.Priority]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 480,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "61c1f10aa9f3f195",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Get Project",
+        "func": "msg.topic = `SELECT * FROM Project WHERE Id = $id`;\n\nif(Object.keys(msg.req.body).length > 0) {\n    msg.payload = [msg.req.body.id]\n}\nelse if(Object.keys(msg.req.query).length > 0) {\n    msg.payload = [msg.req.query.id]\n}\nelse{\n    msg.topic = \"SELECT * FROM Project\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 440,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "7bbcd67e829667dd",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "Project",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 560,
+        "wires": [
+            [
+                "3ac2ad302a665051"
+            ]
+        ]
+    },
+    {
+        "id": "3ac2ad302a665051",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "PUT Project",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `UPDATE Project SET Name =  $Name, Payment =  $Payment, TimeStart = $TimeStart, TimeEnd = $TimeEnd, Note = $Note, Priority = $Priority WHERE Id =  $Id`\nmsg.payload = [raw.Name,raw.Payment,raw.TimeStart,raw.TimeEnd,raw.Note,raw.Priority,raw.Id]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 560,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "b623d24c5db8cd4d",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "Project",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 600,
+        "wires": [
+            [
+                "e1f7fd7f62671518"
+            ]
+        ]
+    },
+    {
+        "id": "e1f7fd7f62671518",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "DELETE Project",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `DELETE FROM Project WHERE Id = $Id`\nmsg.payload = [raw.Id]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 600,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "4e4ce789e4e34a54",
+        "type": "inject",
+        "z": "912907e7e6aebf11",
+        "name": "Create Project",
+        "props": [
+            {
+                "p": "req.body.Name",
+                "v": "Dự án ReactJS",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.Payment",
+                "v": "100000",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.Note",
+                "v": "làm website cho công ty FPT-Software",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.Priority",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 520,
+        "wires": [
+            [
+                "de36dd59b06601bf"
+            ]
+        ]
+    },
+    {
+        "id": "19ba84e03dc1d7a7",
+        "type": "http response",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 800,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "3bd782a7e90a853b",
+        "type": "sqlite",
+        "z": "912907e7e6aebf11",
+        "mydb": "0d8ccf631c35d5ed",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Database",
+        "x": 580,
+        "y": 500,
+        "wires": [
+            [
+                "5cd6b5bd5224e72d",
+                "19ba84e03dc1d7a7"
+            ]
+        ]
+    },
+    {
+        "id": "5cd6b5bd5224e72d",
+        "type": "debug",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "944a051adb5f3d46",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Task",
+        "func": "msg.topic = `\n    CREATE TABLE Task (\n        Id INTEGER PRIMARY KEY AUTOINCREMENT,\n    \tUserMail TEXT NOT NULL,\n    \tProjectId REAL NOT NULL,\n    \tTimeStart DATETIME,\n    \tTimeEnd DATETIME,\n    \tStatus INTEGER,\n    \tNote TEXT\n    )\n`\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 200,
+        "wires": [
+            [
+                "a43aeba97c24f9ae"
+            ]
+        ]
+    },
+    {
+        "id": "8de3f94aa46a070c",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "Task",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 680,
+        "wires": [
+            [
+                "16100ad72855ee76"
+            ]
+        ]
+    },
+    {
+        "id": "c2c82e8db068e17f",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "Task",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 720,
+        "wires": [
+            [
+                "d3187c24dafd0ae0"
+            ]
+        ]
+    },
+    {
+        "id": "d3187c24dafd0ae0",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Post Task",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `INSERT INTO Task ('UserMail','ProjectId','TimeStart','TimeEnd','Status','Note') VALUES ($UserMail,$ProjectId,$TimeStart,$TimeEnd,$Status,$Note)`\nmsg.payload = [raw.UserMail,raw.ProjectId,raw.TimeStart,raw.TimeEnd,raw.Status,raw.Note]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 720,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "16100ad72855ee76",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Get Task",
+        "func": "msg.topic = `SELECT a.*, b.Name AS UserName, c.Name AS ProjectName , c.TimeStart AS prjStart, c.TimeEnd AS prjEnd\n                FROM Task a INNER JOIN User b ON a.UserMail = b.Email INNER JOIN Project c ON a.ProjectId = c.Id \n                WHERE Id = $id`;\n\nif(Object.keys(msg.req.body).length > 0) {\n    msg.payload = [msg.req.body.id]\n}\nelse if(Object.keys(msg.req.query).length > 0) {\n    msg.payload = [msg.req.query.id]\n}\nelse{\n    msg.topic = \"SELECT a.*, b.Name AS UserName, c.Name AS ProjectName, c.TimeStart AS prjStart, c.TimeEnd AS prjEnd FROM Task a INNER JOIN User b ON a.UserMail = b.Email INNER JOIN Project c ON a.ProjectId = c.Id\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 680,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "6fc1a280216de7be",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "Task",
+        "method": "put",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 800,
+        "wires": [
+            [
+                "93b783beb1dd0d89"
+            ]
+        ]
+    },
+    {
+        "id": "93b783beb1dd0d89",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "PUT Task",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `UPDATE Task SET UserMail = $UserMail, ProjectId = $ProjectId, TimeStart = $TimeStart, TimeEnd = $TimeEnd, Status = $Status, Note = $Note WHERE Id =  $Id`\nmsg.payload = [raw.UserMail,raw.ProjectId,raw.TimeStart,raw.TimeEnd,raw.Status,raw.Note,raw.Id]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 800,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "17c46f042e938587",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "Task",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 840,
+        "wires": [
+            [
+                "dfe0ebe553deb4a6"
+            ]
+        ]
+    },
+    {
+        "id": "dfe0ebe553deb4a6",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "DELETE Project",
+        "func": "var raw = msg.req.body;\n\nmsg.topic = `DELETE FROM Task WHERE Id = $Id`\nmsg.payload = [raw.Id]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 840,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "594a07eb83144c35",
+        "type": "inject",
+        "z": "912907e7e6aebf11",
+        "name": "Create Task",
+        "props": [
+            {
+                "p": "req.body.UserMail",
+                "v": "test@gmail.com",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.ProjectId",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "p": "req.body.Status",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "p": "req.body.Note",
+                "v": "Phải hoàn thành đúng deadline",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 760,
+        "wires": [
+            [
+                "d3187c24dafd0ae0"
+            ]
+        ]
+    },
+    {
+        "id": "23358bfdf5655fd9",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "GetTaskByProject",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 960,
+        "wires": [
+            [
+                "ea516c148ee2d880"
+            ]
+        ]
+    },
+    {
+        "id": "ea516c148ee2d880",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Get Task by project",
+        "func": "msg.topic = `SELECT a.*, b.Name AS UserName, c.Name AS ProjectName, c.TimeStart AS prjStart, c.TimeEnd AS prjEnd FROM Task a INNER JOIN User b ON a.UserMail = b.Email INNER JOIN Project c ON a.ProjectId = c.Id WHERE c.Id = $id`;\n\nif(Object.keys(msg.req.body).length > 0) {\n    msg.payload = [msg.req.body.id]\n}\nelse if(Object.keys(msg.req.query).length > 0) {\n    msg.payload = [msg.req.query.id]\n}\nelse{\n    msg.topic = \"SELECT a.*, b.Name AS UserName, c.Name AS ProjectName, c.TimeStart AS prjStart, c.TimeEnd AS prjEnd FROM Task a INNER JOIN User b ON a.UserMail = b.Email INNER JOIN Project c ON a.ProjectId = c.Id\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 960,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "491a4f72abefa61e",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "GetTaskByUser",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 1000,
+        "wires": [
+            [
+                "896bf433f9875363"
+            ]
+        ]
+    },
+    {
+        "id": "896bf433f9875363",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Get Task by user",
+        "func": "msg.topic = `SELECT a.*, b.Name AS UserName, c.Name AS ProjectName, c.TimeStart AS prjStart, c.TimeEnd AS prjEnd FROM Task a INNER JOIN User b ON a.UserMail = b.Email INNER JOIN Project c ON a.ProjectId = c.Id WHERE b.Email = $email`;\n\nif(Object.keys(msg.req.body).length > 0) {\n    msg.payload = [msg.req.body.email]\n}\nelse if(Object.keys(msg.req.query).length > 0) {\n    msg.payload = [msg.req.query.email]\n}\nelse{\n    msg.topic = \"SELECT a.*, b.Name AS UserName, c.Name AS ProjectName, c.TimeStart AS prjStart, c.TimeEnd AS prjEnd FROM Task a INNER JOIN User b ON a.UserMail = b.Email INNER JOIN Project c ON a.ProjectId = c.Id\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1000,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "cc3277783553e924",
+        "type": "http in",
+        "z": "912907e7e6aebf11",
+        "name": "",
+        "url": "GetProjectByUser",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 1040,
+        "wires": [
+            [
+                "1202cc127399a35b"
+            ]
+        ]
+    },
+    {
+        "id": "1202cc127399a35b",
+        "type": "function",
+        "z": "912907e7e6aebf11",
+        "name": "Get project by user",
+        "func": "msg.topic = `SELECT DISTINCT c.*\n                FROM Task a INNER JOIN User b ON a.UserMail = b.Email INNER JOIN Project c ON a.ProjectId = c.Id \n                WHERE b.Email = $email`;\n\nif(Object.keys(msg.req.body).length > 0) {\n    msg.payload = [msg.req.body.email]\n}\nelse if(Object.keys(msg.req.query).length > 0) {\n    msg.payload = [msg.req.query.email]\n}\nelse{\n    msg.topic = \"SELECT DISTINCT c.* FROM Task a INNER JOIN User b ON a.UserMail = b.Email INNER JOIN Project c ON a.ProjectId = c.Id\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1040,
+        "wires": [
+            [
+                "3bd782a7e90a853b"
+            ]
+        ]
+    },
+    {
+        "id": "0d8ccf631c35d5ed",
+        "type": "sqlitedb",
+        "db": "D:\\Database.db",
+        "mode": "RWC"
+    }
+]
