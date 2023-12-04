@@ -1,0 +1,22 @@
+.active {
+    font-weight: bold;
+       font-weight: 1000;
+    color: black;
+  }
+  @media (max-width:520px){
+    .navibar{
+      display: flex;
+      justify-content: space-between;
+     margin-right: 0; 
+     padding-right: -500px;
+
+
+    }
+    .dropdownbar{
+      margin-left: 100px;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction:column
+
+    }
+  }

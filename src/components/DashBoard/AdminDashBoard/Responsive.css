@@ -1,0 +1,35 @@
+@media  (max-width:828px){
+  .body{
+    display:none
+
+  }
+  .block{
+   display: flex;
+   flex-direction:column
+
+
+}
+.space{
+    flex-direction:column-reverse;
+    display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  
+
+}
+.flex-card {
+    width: 100%;
+  }
+
+}
+@media (min-width:829px){
+    .space{
+        flex-direction:column-reverse;
+        display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      
+    
+    }
+
+}

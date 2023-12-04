@@ -1,0 +1,30 @@
+@media (max-width:829){
+    .body{
+        display: none;
+    }
+    .block{
+        display: flex;
+        flex-direction:column
+    }     
+    .space{
+        flex-direction:column-reverse;
+        display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      
+    
+    }
+   
+   
+    
+    
+
+}
+
+.ant-table table{
+    font-size: 10px;
+    text-wrap: nowrap;
+  
+
+}
+

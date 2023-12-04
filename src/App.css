@@ -1,0 +1,310 @@
+body{
+  
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .page-item {
+    margin: 2px;
+    border-radius: 5px;
+    background-color: #eaeaea;
+  
+    &.active {
+      background-color: #007bff;
+  
+      .page-link {
+        color: #fff;
+      }
+    }
+  
+    .page-link {
+      padding: 5px 10px;
+      color: #333;
+      text-decoration: none;
+    }
+  }
+  .pagination-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.page-item {
+  margin: 2px;
+  border-radius: 5px;
+  background-color: #eaeaea;
+}
+
+.page-link {
+  padding: 5px 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.page-item.active {
+  background-color: #007bff;
+}
+
+.page-item.active .page-link {
+  color: #fff;
+}
+
+}
+.app-container{
+  .add-new{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.pagination-container {
+  display: flex;
+  list-style-type: none;
+
+  .pagination-item {
+    padding: 0 12px;
+    height: 32px;
+    text-align: center;
+    margin: auto 4px;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    letter-spacing: 0.01071em;
+    border-radius: 16px;
+    line-height: 1.43;
+    font-size: 13px;
+    min-width: 32px;
+
+    &.dots:hover {
+      background-color: transparent;
+      cursor: default;
+    }
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+    }
+
+    &.selected {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .arrow {
+      &::before {
+        position: relative;
+        /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
+        content: '';
+        /* By using an em scale, the arrows will size with the font */
+        display: inline-block;
+        width: 0.4em;
+        height: 0.4em;
+        border-right: 0.12em solid rgba(0, 0, 0, 0.87);
+        border-top: 0.12em solid rgba(0, 0, 0, 0.87);
+      }
+
+      &.left {
+        transform: rotate(-135deg) translate(-50%);
+      }
+
+      &.right {
+        transform: rotate(45deg);
+      }
+    }
+
+    &.disabled {
+      pointer-events: none;
+
+      .arrow::before {
+        border-right: 0.12em solid rgba(0, 0, 0, 0.43);
+        border-top: 0.12em solid rgba(0, 0, 0, 0.43);
+      }
+
+      &:hover {
+        background-color: transparent;
+        cursor: default;
+      }
+    }
+  }
+}
+.password-input {
+  display: flex;
+  align-items: center;
+}
+
+.password-icon {
+  margin-left: 5px;
+  display:  flex;
+  inset-block-end: 10px;
+}
+.fa-solid fa-eye-slash{
+  position: absolute;
+  top:17px;
+  right:10px
+}
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+button[disabled=disabled], button:disabled {
+  cursor: not-allowed;
+  background-color: rgb(229, 229, 229) !important;
+}
+.home {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.user-card {
+  width: 18rem;
+  margin: 10px;
+  transition: transform 0.3s ease;
+}
+.user-card.hovered {
+  transform: scale(1.05);
+}
+.genre ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.genre li {
+  border: 1px solid #4d4d4d;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 50px;
+  color: #fbfbfb;
+  background-color: #343434;
+}
+
+.genre li:hover {
+  background-color: #808080;
+  color: #fff;
+}
+.detail {
+  width: 50%;
+  max-width: 1200px; /* adjust as needed */
+  margin: 2rem auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 2rem;
+}
+
+.detail:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.user-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  .genre {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+  
+}
+.search-icon{
+  display: flex;
+  width: 10%;
+  height: 0%;
+  float: left;
+  
+
+}
+.form-control{
+  margin-right: 100px;
+}
+.col-image{
+  padding-left: 200%;
+  border: 10px;
+}
+.w-50 {
+  width: 80%!important;
+}
+// styles.scss
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.contact-form label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contact-form textarea {
+  height: px;
+}
+
+.contact-form input[type="submit"] {
+  background-color: #007bff;
+
+}
+
+.contact-form input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+.col-image {
+  width: 10%; /* Adjust the width as per your requirement */
+}
+@media (min-width:10000px){
+  .navibar{
+    display:none
+  }
+}
+.navibar{
+  display:flex;
+  width: 100%;
+  
+
+}
+
